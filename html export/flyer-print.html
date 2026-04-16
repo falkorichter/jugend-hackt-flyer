@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jugend hackt Berlin 2026 – Flyer</title>
+  <style>
+    /* =========================================================
+       Jugend hackt Berlin 2026 – Tri-fold Flyer
+       Sheet layout (A4 landscape, each panel 99 × 210 mm):
+
+       FRONT (print this side first):
+       ┌──────────────┬──────────────┬──────────────┐
+       │  Seite 5     │  Seite 6     │  Seite 1     │
+       │  FAQ         │  Karte &     │  Cover       │
+       │              │  Kontakt     │              │
+       └──────────────┴──────────────┴──────────────┘
+
+       BACK (flip the sheet along the long axis):
+       ┌──────────────┬──────────────┬──────────────┐
+       │  Seite 2     │  Seite 3     │  Seite 4       │
+       │  Über uns &  │  Programm    │  Sponsoren &   │
+       │  Videos (QR) │              │  Vorbereitung  │
+       └──────────────┴──────────────┴──────────────┘
+       ========================================================= */
+
+    :root {
+      --jh-teal: #00a095;
+      --jh-teal-dark: #007a71;
+      --jh-text: #1a1a1a;
+    }
+
+    /* ----- Reset ------------------------------------------- */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 8pt;
+      color: var(--jh-text);
+      background: #e8e8e8;
+      padding: 20px;
+    }
+
+    h1 { font-size: 22pt; line-height: 1.1; margin-bottom: 4mm; }
+    h2 { font-size: 11pt; margin-bottom: 2mm; }
+    h3 { font-size: 8.5pt; margin-bottom: 1.5mm; margin-top: 3mm; }
+    p  { line-height: 1.35; margin-bottom: 2mm; }
+    ul, ol { padding-left: 4mm; margin-bottom: 2mm; }
+    li { margin-bottom: 1mm; }
+    a  { color: inherit; text-decoration: none; word-break: break-all; }
+
+    .sheet-label {
+      font-family: monospace;
+      font-size: 10px;
+      color: #666;
+      margin: 5px 0 5px;
+      text-align: center;
+    }
+
+    /* ----- Sheet container --------------------------------- */
+    .flyer-sheet {
+      width: 297mm;
+      height: 210mm;
+      display: flex;
+      flex-direction: row;
+      background: #fff;
+      overflow: hidden;
+      margin: 0 auto 30px;
+      position: relative;
+    }
+
+    /* ----- Panel base -------------------------------------- */
+    .flyer-panel {
+      width: 99mm;
+      min-width: 99mm;
+      max-width: 99mm;
+      height: 210mm;
+      padding: 8mm 7mm;
+      overflow: hidden;
+      border-right: 1px dashed #bbb;
+      position: relative;
+      background: #fff;
+    }
+
+    .flyer-panel:last-child { border-right: none; }
+
+    /* ----- Cover panel (Seite 1) --------------------------- */
+    .panel-cover {
+      background: var(--jh-teal);
+      color: #fff;
+    }
+
+    .panel-cover h1,
+    .panel-cover h2,
+    .panel-cover h3,
+    .panel-cover p { color: #fff; }
+
+    .panel-cover .event-subtitle {
+      font-size: 9pt;
+      font-style: italic;
+      margin-bottom: 4mm;
+    }
+
+    .panel-cover .event-date-box {
+      background: rgba(255,255,255,0.2);
+      border: 1.5pt solid rgba(255,255,255,0.6);
+      border-radius: 2mm;
+      padding: 3mm 4mm;
+      margin: 4mm 0;
+    }
+
+    .panel-cover .event-date-box h3 {
+      margin-top: 0;
+      font-size: 9.5pt;
+    }
+
+    .register-qr {
+      text-align: center;
+      margin-top: 4mm;
+    }
+
+    .register-qr img {
+      width: 28mm;
+      height: 28mm;
+      background: #fff;
+      padding: 2mm;
+      display: block;
+      margin: 0 auto 2mm;
+    }
+
+    .register-qr p {
+      font-size: 8pt;
+      text-align: center;
+    }
+
+    .alpaca-footer {
+      position: absolute;
+      bottom: 5mm;
+      right: 5mm;
+      opacity: 0.3;
+    }
+
+    /* ----- FAQ panel (Seite 5) ----------------------------- */
+    .faq-item {
+      border-top: 0.5pt solid #ddd;
+      padding: 2mm 0;
+    }
+
+    .faq-item:first-child { border-top: none; }
+
+    .faq-q {
+      font-weight: bold;
+      font-size: 8pt;
+      margin-bottom: 0.5mm;
+    }
+
+    .faq-a {
+      font-size: 7.5pt;
+      color: #333;
+      margin: 0;
+      line-height: 1.3;
+    }
+
+    /* ----- Map + Contact panel (Seite 6) ------------------- */
+    .map-static {
+      width: 100%;
+      height: 38mm;
+      background: #d0e8d0;
+      border: 0.5pt solid #aaa;
+      margin-bottom: 3mm;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .map-static img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .map-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      font-size: 7pt;
+      color: #666;
+      flex-direction: column;
+      gap: 3mm;
+      text-align: center;
+    }
+
+    .map-qr-small img {
+      width: 28mm;
+      height: 28mm;
+    }
+
+    .contact-card {
+      display: flex;
+      gap: 2mm;
+      margin-bottom: 3mm;
+      align-items: flex-start;
+    }
+
+    .contact-card img {
+      width: 13mm;
+      height: 13mm;
+      border-radius: 50%;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .contact-info {
+      font-size: 7pt;
+    }
+
+    .contact-info strong { font-size: 7.5pt; }
+
+    /* ----- Video / About panel (Seite 2) ------------------- */
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3mm;
+      margin: 3mm 0;
+    }
+
+    .qr-item {
+      text-align: center;
+    }
+
+    .qr-item img {
+      width: 24mm;
+      height: 24mm;
+      display: block;
+      margin: 0 auto 1mm;
+    }
+
+    .qr-item .qr-label {
+      font-size: 6pt;
+      line-height: 1.25;
+      color: #333;
+    }
+
+    /* ----- Program panel (Seite 3) ------------------------- */
+    .program-day {
+      margin-bottom: 3mm;
+    }
+
+    .program-day h3 {
+      background: var(--jh-teal);
+      color: #fff;
+      padding: 1mm 2mm;
+      margin-top: 0;
+      font-size: 8pt;
+    }
+
+    .program-item {
+      display: flex;
+      gap: 2mm;
+      padding: 0.5mm 0;
+      border-bottom: 0.3pt solid #eee;
+      font-size: 7pt;
+    }
+
+    .program-item time {
+      min-width: 14mm;
+      font-weight: bold;
+      color: var(--jh-teal-dark);
+      flex-shrink: 0;
+    }
+
+    /* ----- Sponsors panel (Seite 4) ------------------------ */
+    .sponsor-logo {
+      display: inline-block;
+      margin: 1mm;
+    }
+
+    .sponsor-logo img {
+      max-width: 28mm;
+      max-height: 14mm;
+      object-fit: contain;
+    }
+
+    .retrospective-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5mm;
+      margin-top: 2mm;
+    }
+
+    .retrospective-list li {
+      list-style: none;
+      margin: 0;
+    }
+
+    .retrospective-list a {
+      display: inline-block;
+      border: 0.5pt solid var(--jh-teal);
+      padding: 0.5mm 2mm;
+      border-radius: 2mm;
+      font-size: 7pt;
+      color: var(--jh-teal);
+    }
+
+    /* =========================================================
+       PRINT RULES
+       ========================================================= */
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 0;
+      }
+
+      body {
+        background: #fff;
+        padding: 0;
+      }
+
+      .sheet-label { display: none; }
+
+      .flyer-sheet {
+        margin: 0;
+        page-break-after: always;
+        break-after: page;
+        box-shadow: none;
+      }
+
+      .flyer-sheet:last-child {
+        page-break-after: avoid;
+        break-after: avoid;
+      }
+
+      .flyer-panel {
+        border-right: 0.3pt dashed #ccc;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- =====================================================
+     SHEET 1 — FRONT
+     ===================================================== -->
+<p class="sheet-label">▼ SHEET 1 – FRONT (print first) – fold into thirds</p>
+<div class="flyer-sheet" id="sheet-front">
+
+  <!-- PANEL: Seite 5 – FAQ (left panel when folded) -->
+  <div class="flyer-panel" id="panel-faq">
+    <h2 style="color:var(--jh-teal);border-bottom:1.5pt solid var(--jh-teal);padding-bottom:2mm;margin-bottom:3mm;">Häufige Fragen</h2>
+
+    <div class="faq-item">
+      <p class="faq-q">Muss ich Programmierkenntnisse mitbringen?</p>
+      <p class="faq-a">Nein! Jedes Erfahrungslevel ist willkommen. Bring einfach Neugier und Interesse mit.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Wie alt muss ich sein?</p>
+      <p class="faq-a">Der Hackathon richtet sich an Jugendliche zwischen 12 und 18 Jahren.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Was kostet die Teilnahme?</p>
+      <p class="faq-a">Die Teilnahme ist kostenlos. Übernachtung und Verpflegung werden gestellt.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Werden Reisekosten übernommen?</p>
+      <p class="faq-a">Ja – wenn du dir die Anreise nicht leisten kannst, trag das einfach im Anmeldeformular ein. Wir helfen unkompliziert und vertraulich.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Wo schlafe ich?</p>
+      <p class="faq-a">In der Jugendherberge am Ostkreuz – kostenlos für alle Teilnehmenden.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Was soll ich mitbringen?</p>
+      <p class="faq-a">Einen Laptop (falls möglich), Neugier und Lust auf Teamarbeit. Geräte wie 3D-Drucker und Lasercutter sind vor Ort.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Gibt es Awareness/Unterstützung?</p>
+      <p class="faq-a">Ja! Unser Awareness-Team ist die gesamte Veranstaltung über für dich da. Es gibt einen Chill-Bereich und einen reizarmen Ruheraum.</p>
+    </div>
+
+    <div class="faq-item">
+      <p class="faq-q">Noch Fragen?</p>
+      <p class="faq-a">Schreib uns: <strong>berlin@jugendhackt.org</strong></p>
+    </div>
+  </div>
+
+  <!-- PANEL: Seite 6 – Karte & Kontakt (center panel when folded) -->
+  <div class="flyer-panel" id="panel-map">
+    <h2 style="color:var(--jh-teal);border-bottom:1.5pt solid var(--jh-teal);padding-bottom:2mm;margin-bottom:3mm;">Anreise &amp; Kontakt</h2>
+
+    <!-- Static map via OpenStreetMap tiles (print-friendly) -->
+    <div class="map-static">
+      <div class="map-placeholder">
+        <div class="map-qr-small">
+          <img src="./Berlin – Jugend hackt_files/qr-register.svg" alt="QR: Anmeldung" style="width:24mm;height:24mm;">
+        </div>
+        <div>
+          <strong>Theater an der Parkaue</strong><br>
+          Parkaue 29, 10367 Berlin<br>
+          <small>Scan für Google Maps ↑</small>
+        </div>
+      </div>
+    </div>
+
+    <h3>Veranstaltungsort</h3>
+    <p style="font-size:8pt;">
+      <strong>Theater an der Parkaue</strong><br>
+      Parkaue 29<br>
+      10367 Berlin
+    </p>
+
+    <h3>Räume &amp; Barrierefreiheit</h3>
+    <p style="font-size:7.5pt;">
+      Chill-Bereich, reizarmer Ruheraum und Awareness-Team vorhanden.<br>
+      → <a href="https://jugendhackt.org/events/berlin/barrieren/">Alle Infos zu Barrieren</a>
+    </p>
+
+    <h3>Kontakt</h3>
+    <div class="contact-card">
+      <img src="./Berlin – Jugend hackt_files/ragna-rasmus.hoefgen-scaled-e1744633721539.jpg" alt="Remy Höfgen">
+      <div class="contact-info">
+        <strong>Remy Höfgen</strong><br>
+        Awareness, Projektmanagement<br>
+        remy.hoefgen@okfn.de
+      </div>
+    </div>
+
+    <div class="contact-card">
+      <img src="./Berlin – Jugend hackt_files/lisa_jahn.jpg" alt="Lisa Jahn">
+      <div class="contact-info">
+        <strong>Lisa Jahn [sie]</strong><br>
+        Projektmanagement Events<br>
+        lisa@jugendhackt.org
+      </div>
+    </div>
+  </div>
+
+  <!-- PANEL: Seite 1 – Cover (right panel = front face when folded) -->
+  <div class="flyer-panel panel-cover" id="panel-cover">
+    <img src="./Berlin – Jugend hackt_files/Jugend-hackt_Hakathocn_2026_Flyer-1-560x560.png"
+         alt="Jugend hackt Alpaka"
+         style="width:28mm;height:28mm;margin-bottom:4mm;display:block;">
+
+    <h1>Berlin<br><span style="font-size:14pt;">Jugend hackt</span></h1>
+    <p class="event-subtitle">Hack Your Education!</p>
+    <p style="font-size:8pt;">Dreitägiger Hackathon für 12–18 Jährige. Tüfteln, Hacken, Hinterfragen – gemeinsam Neues entdecken.</p>
+
+    <div class="event-date-box">
+      <h3>Wann?</h3>
+      <p style="font-size:8.5pt;margin:0;"><strong>Fr 19. – So 21. Juni 2026</strong><br>
+      Start: Freitag 14:00 Uhr<br>
+      Ende: Sonntag 16:00 Uhr</p>
+
+      <h3 style="margin-top:2mm;">Wo?</h3>
+      <p style="font-size:8pt;margin:0;">Theater an der Parkaue<br>Parkaue 29, 10367 Berlin</p>
+    </div>
+
+    <div class="register-qr">
+      <img src="./Berlin – Jugend hackt_files/qr-register.svg" alt="QR Code Anmeldung">
+      <p><strong>Jetzt anmelden!</strong><br>
+      anmeldung.alpaka.space<br>
+      bis 17. Mai 2026</p>
+    </div>
+  </div>
+
+</div><!-- /sheet-front -->
+
+
+<!-- =====================================================
+     SHEET 2 — BACK
+     ===================================================== -->
+<p class="sheet-label">▼ SHEET 2 – BACK (flip along long edge)</p>
+<div class="flyer-sheet" id="sheet-back">
+
+  <!-- PANEL: Seite 2 – Über uns & YouTube-Videos mit QR-Codes -->
+  <div class="flyer-panel" id="panel-about">
+    <h2 style="color:var(--jh-teal);border-bottom:1.5pt solid var(--jh-teal);padding-bottom:2mm;margin-bottom:3mm;">Was ist Jugend hackt?</h2>
+
+    <p style="font-size:7.5pt;">Wir treffen uns über drei Tage zum Tüfteln, Hacken und Hinterfragen. Beim Hackathon erfindest du gemeinsam mit anderen technische Lösungen für die kleinen und großen Probleme im Alltag.</p>
+
+    <p style="font-size:7.5pt;">Lernen passiert überall: Beim Coden, Bauen, Ausprobieren – nicht nur in der Schule. Vorkenntnisse sind nicht nötig!</p>
+
+    <h3 style="color:var(--jh-teal);">📺 YouTube-Videos – scann &amp; schau rein!</h3>
+
+    <div class="qr-grid">
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-a8ANmdzAD8I.svg" alt="QR: Jugend hackt Video">
+        <div class="qr-label"><strong>Jugend hackt<br>Berlin</strong><br>Rückblick-Video</div>
+      </div>
+
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-channel.svg" alt="QR: YouTube Kanal">
+        <div class="qr-label"><strong>YouTube-Kanal</strong><br>@jugendhackt</div>
+      </div>
+
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-berlin2025.svg" alt="QR: Rückblick 2025">
+        <div class="qr-label"><strong>Rückblick</strong><br>Berlin 2025</div>
+      </div>
+
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-berlin2024.svg" alt="QR: Rückblick 2024">
+        <div class="qr-label"><strong>Rückblick</strong><br>Berlin 2024</div>
+      </div>
+
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-berlin2022.svg" alt="QR: Rückblick 2022">
+        <div class="qr-label"><strong>Rückblick</strong><br>Berlin 2022</div>
+      </div>
+
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-berlin2021.svg" alt="QR: Rückblick 2021">
+        <div class="qr-label"><strong>Rückblick</strong><br>Berlin 2021</div>
+      </div>
+    </div>
+
+    <p style="font-size:6.5pt;color:#666;margin-top:2mm;">Gefördert durch das Bundesministerium für Familie, Senioren, Frauen und Jugend (BMFSFJ) im Rahmen der OER-Strategie des Bundes.</p>
+  </div>
+
+  <!-- PANEL: Seite 3 – Programm -->
+  <div class="flyer-panel" id="panel-program">
+    <h2 style="color:var(--jh-teal);border-bottom:1.5pt solid var(--jh-teal);padding-bottom:2mm;margin-bottom:3mm;">Das Programm</h2>
+
+    <div class="program-day">
+      <h3>Freitag, 19. Juni</h3>
+      <div class="program-item"><time>10:00</time><div>Ankommen, Aufbau, offener Makespace</div></div>
+      <div class="program-item"><time>14:00</time><div>Der Hackathon startet!</div></div>
+      <div class="program-item"><time>16:00</time><div>Brainstorming</div></div>
+      <div class="program-item"><time>18:00</time><div>Pizza!</div></div>
+      <div class="program-item"><time>19:30</time><div>Vorstellung der Projektideen</div></div>
+      <div class="program-item"><time>20:00</time><div>Offener Abend</div></div>
+      <div class="program-item"><time>22:30</time><div>Feierabend</div></div>
+    </div>
+
+    <div class="program-day">
+      <h3>Samstag, 20. Juni</h3>
+      <div class="program-item"><time>10:30</time><div>Los geht's! Gruppenfindung</div></div>
+      <div class="program-item"><time>11:00</time><div>Coden, coden, coden!</div></div>
+      <div class="program-item"><time>13:00</time><div>Mittagessen</div></div>
+      <div class="program-item"><time>16:00</time><div>Präsentation üben</div></div>
+      <div class="program-item"><time>18:00</time><div>Abendessen</div></div>
+      <div class="program-item"><time>22:30</time><div>Feierabend</div></div>
+    </div>
+
+    <div class="program-day">
+      <h3>Sonntag, 21. Juni</h3>
+      <div class="program-item"><time>10:00</time><div>Guten Morgen!</div></div>
+      <div class="program-item"><time>12:00</time><div>Mittagssnack</div></div>
+      <div class="program-item"><time>14:00</time><div>Abschlusspräsentation</div></div>
+      <div class="program-item"><time>16:00</time><div>Ende</div></div>
+    </div>
+  </div>
+
+  <!-- PANEL: Seite 4 – Sponsoren & Vorbereitung -->
+  <div class="flyer-panel" id="panel-sponsors">
+    <h2 style="color:var(--jh-teal);border-bottom:1.5pt solid var(--jh-teal);padding-bottom:2mm;margin-bottom:3mm;">Dankeschön!</h2>
+
+    <p style="font-size:7.5pt;">Ein großes Dankeschön geht an unsere Partner*innen und Förder*innen, die Jugend hackt Berlin 2026 möglich machen.</p>
+
+    <div class="sponsor-logo">
+      <img src="./Berlin – Jugend hackt_files/logo-bmfsfj-weisser-hintergrund-data-340x128.png" alt="BMBFSFJ">
+    </div>
+
+    <h3 style="color:var(--jh-teal);margin-top:4mm;">Vorbereitung auf das Event</h3>
+    <div class="qr-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-prep-github.svg" alt="QR: GitHub-Einführung">
+        <div class="qr-label"><strong>GitHub-</strong><br><strong>Einführung</strong></div>
+      </div>
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-prep-offenedaten.svg" alt="QR: Offene Daten">
+        <div class="qr-label"><strong>Offene</strong><br><strong>Daten</strong></div>
+      </div>
+      <div class="qr-item">
+        <img src="./Berlin – Jugend hackt_files/qr-prep-community.svg" alt="QR: Online-Community">
+        <div class="qr-label"><strong>Online-</strong><br><strong>Community</strong></div>
+      </div>
+    </div>
+
+    <div style="margin-top:4mm;font-size:7pt;color:#555;">
+      <p>jugendhackt.org</p>
+      <p>Ein Programm der<br>Open Knowledge Foundation Deutschland</p>
+    </div>
+
+    <div style="position:absolute;bottom:6mm;left:7mm;right:7mm;text-align:center;">
+      <img src="./Berlin – Jugend hackt_files/qr-register.svg"
+           alt="QR Anmeldung"
+           style="width:22mm;height:22mm;display:block;margin:0 auto 1mm;">
+      <span style="font-size:6.5pt;color:#555;">Jetzt anmelden!</span>
+    </div>
+  </div>
+
+</div><!-- /sheet-back -->
+
+</body>
+</html>
