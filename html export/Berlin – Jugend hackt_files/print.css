@@ -1,0 +1,279 @@
+/* =========================================================
+   Jugend hackt Berlin – Print / Flyer Stylesheet
+   Tri-fold DIN A4 landscape (297 × 210 mm)
+
+   Sheet layout (viewed from outside → fold in thirds):
+   ┌────────────────┬────────────────┬────────────────┐
+   │  FRONT         │                │                │
+   │  Seite 5 (FAQ) │  Seite 6       │  Seite 1       │
+   │                │  (Karte+Kontak)│  (Cover)       │
+   └────────────────┴────────────────┴────────────────┘
+   ┌────────────────┬────────────────┬────────────────┐
+   │  BACK          │                │                │
+   │  Seite 2       │  Seite 3       │  Seite 4       │
+   │  (Video/QR)    │  (Programm)    │  (Sponsoren)   │
+   └────────────────┴────────────────┴────────────────┘
+   ========================================================= */
+
+@media print {
+  /* ----- Page setup ---------------------------------------- */
+  @page {
+    size: A4 landscape;
+    margin: 0;
+  }
+
+  /* ----- Reset & hide screen chrome ------------------------ */
+  *,
+  *::before,
+  *::after {
+    box-shadow: none !important;
+    text-shadow: none !important;
+  }
+
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    color: #000;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Hide things that don't belong in print */
+  header,
+  nav,
+  footer,
+  .c-planebanner,
+  .js-sticky-container .c-page-alpaca-featured,
+  .c-breadcrumb,
+  .c-header-search,
+  .needs-js,
+  .c-page-video-bottom,
+  .tns-controls,
+  .leaflet-control-container,
+  .leaflet-control-zoom,
+  script,
+  iframe,
+  [aria-hidden="true"],
+  .screen-only {
+    display: none !important;
+  }
+
+  /* ----- Flyer shell --------------------------------------- */
+  /* Each .flyer-sheet is a full A4-landscape sheet with 3 panels */
+  .flyer-sheet {
+    display: flex;
+    flex-direction: row;
+    width: 297mm;
+    height: 210mm;
+    overflow: hidden;
+    page-break-after: always;
+    break-after: page;
+  }
+
+  .flyer-sheet:last-child {
+    page-break-after: avoid;
+    break-after: avoid;
+  }
+
+  .flyer-panel {
+    width: 99mm;
+    min-width: 99mm;
+    max-width: 99mm;
+    height: 210mm;
+    padding: 8mm 7mm;
+    box-sizing: border-box;
+    overflow: hidden;
+    border-right: 0.3pt dashed #ccc; /* fold guide */
+    position: relative;
+  }
+
+  .flyer-panel:last-child {
+    border-right: none;
+  }
+
+  /* ----- Panel accent colors (matches event color) --------- */
+  .flyer-panel--cover {
+    background: #00a095; /* Jugend hackt teal */
+    color: #fff;
+  }
+
+  .flyer-panel--cover h1,
+  .flyer-panel--cover h2,
+  .flyer-panel--cover h3,
+  .flyer-panel--cover p,
+  .flyer-panel--cover a {
+    color: #fff !important;
+  }
+
+  .flyer-panel--cover a.button {
+    display: inline-block;
+    border: 2pt solid #fff;
+    padding: 2mm 4mm;
+    margin-top: 3mm;
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+  /* ----- Typography ---------------------------------------- */
+  h1 { font-size: 18pt; margin: 0 0 2mm; }
+  h2 { font-size: 13pt; margin: 0 0 2mm; }
+  h3 { font-size: 9pt;  margin: 2mm 0 1mm; }
+  p  { margin: 0 0 2mm; line-height: 1.35; }
+  ul, ol { margin: 0 0 2mm; padding-left: 4mm; }
+  li { margin-bottom: 1mm; }
+  a  { color: inherit; word-break: break-all; }
+
+  /* ----- Contact cards ------------------------------------- */
+  .c-contact {
+    display: flex;
+    gap: 2mm;
+    margin-bottom: 3mm;
+  }
+
+  .c-contact-image {
+    width: 14mm !important;
+    height: auto;
+    border-radius: 50%;
+  }
+
+  .c-contact-text { font-size: 7pt; }
+
+  /* ----- Map placeholder for print ------------------------- */
+  .c-map {
+    width: 100% !important;
+    height: 35mm !important;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /* Show static map tiles in print */
+  .leaflet-tile-container { display: block !important; }
+
+  /* ----- QR code grid ------------------------------------- */
+  .flyer-qr-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3mm;
+    margin-top: 2mm;
+  }
+
+  .flyer-qr-item {
+    text-align: center;
+  }
+
+  .flyer-qr-item img,
+  .flyer-qr-item svg {
+    width: 22mm;
+    height: 22mm;
+    display: block;
+    margin: 0 auto 1mm;
+  }
+
+  .flyer-qr-item .qr-label {
+    font-size: 6pt;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+
+  /* ----- Program table ------------------------------------- */
+  .c-event-schedule table,
+  .c-timetable {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 7pt;
+  }
+
+  .c-event-schedule td,
+  .c-timetable td {
+    padding: 0.5mm 1mm;
+    border-bottom: 0.3pt solid #ddd;
+    vertical-align: top;
+  }
+
+  /* ----- Sponsor logos ------------------------------------- */
+  .c-displayitem img {
+    max-width: 25mm;
+    max-height: 12mm;
+    object-fit: contain;
+  }
+
+  /* ----- FAQ accordion ------------------------------------- */
+  .flyer-faq details {
+    margin-bottom: 2mm;
+  }
+
+  .flyer-faq details > * {
+    display: block;
+  }
+
+  .flyer-faq summary {
+    font-weight: bold;
+    font-size: 8pt;
+    list-style: none;
+  }
+
+  .flyer-faq summary::before {
+    content: "▸ ";
+  }
+
+  /* ----- Event logo / alpaka ------------------------------- */
+  .clip-alpaka {
+    width: 25mm;
+    height: auto;
+  }
+
+  /* ----- Utility ------------------------------------------- */
+  .print-only { display: block !important; }
+  .no-print   { display: none  !important; }
+}
+
+/* Screen helper: show print preview note */
+@media screen {
+  .flyer-sheet {
+    margin: 10px auto;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 8px rgba(0,0,0,.2);
+    overflow: hidden;
+  }
+
+  .flyer-panel {
+    border-right: 1px dashed #aaa;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 8pt;
+    padding: 10px 9px;
+    height: 265px;
+    overflow: hidden;
+    width: 33.33%;
+    box-sizing: border-box;
+    display: inline-block;
+    vertical-align: top;
+    background: #fff;
+  }
+
+  .flyer-panel--cover {
+    background: #00a095;
+    color: #fff;
+  }
+
+  .flyer-qr-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+
+  .flyer-qr-item {
+    text-align: center;
+    width: 70px;
+  }
+
+  .flyer-qr-item img,
+  .flyer-qr-item svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  .flyer-qr-item .qr-label {
+    font-size: 9px;
+  }
+}
